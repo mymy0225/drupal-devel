@@ -1,10 +1,9 @@
 global-css:
   version: Version
-  css: 
+  css:
     theme:
       css/elements.css: {}
       css/layout.css: {}
-      css/navigation.css: {}
       css/print.css: { media: print }
 pacifico:
   license:
@@ -14,5 +13,14 @@ pacifico:
     theme:
       //fonts.googleapis.com/css?family=Pacifico: { type: external }
       css/styles.css: {}
-      
-      
+# picturefill:
+#   remote: https://github.com/scottjehl/picturefill
+#   version: "3.0.1"
+#   license:
+#     name: MIT
+#     url: https://github.com/scottjehl/picturefill/blob/3.0.1/LICENSE
+#     gpl-compatible: true
+#   js:
+#     assets/vendor/picturefill/picturefill.min.js: { weight: -10, minified: true }
+#   dependencies:
+#     - core/matchmedia
