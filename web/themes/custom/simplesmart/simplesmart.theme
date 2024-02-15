@@ -1,7 +1,7 @@
 <?php
 function simplesmart_preprocess_node__article(&$variables){
-    $font = theme_get_setting('default_font_family');
+    $font = theme_get_setting('font_family');
     if($font){
-        $variables['#attached']['library'][] = "simplesmart/" . $font;
+        $variables['#attached']['library'][] = $font;
     }
 }
