@@ -13,4 +13,3 @@ regions:
   page_bottom: Page bottom
 libraries:
   - simplesmart/global-css
-  - simplesmart/pacifico
