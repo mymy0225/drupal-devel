@@ -13,14 +13,9 @@ pacifico:
     theme:
       //fonts.googleapis.com/css?family=Pacifico: { type: external }
       css/styles.css: {}
-# picturefill:
-#   remote: https://github.com/scottjehl/picturefill
-#   version: "3.0.1"
-#   license:
-#     name: MIT
-#     url: https://github.com/scottjehl/picturefill/blob/3.0.1/LICENSE
-#     gpl-compatible: true
-#   js:
-#     assets/vendor/picturefill/picturefill.min.js: { weight: -10, minified: true }
-#   dependencies:
-#     - core/matchmedia
+get-user-information:
+  version: Version
+  js:
+    js/get-user-information.js: {}
+  dependencies:
+    - core/drupalSettings

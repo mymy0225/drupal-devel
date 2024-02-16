@@ -1,7 +1,17 @@
 <?php
 function simplesmart_preprocess_node__article(&$variables){
+    $user = [
+        'name' => \Drupal::currentUser()->getAccountname(),
+        'timezone' => \Drupal::currentUser()->getTimeZone(),
+        'roles' => \Drupal::currentUser()->getRoles(),
+    ];
+
     $font = theme_get_setting('font_family');
     if($font){
         $variables['#attached']['library'][] = $font;
     }
+
+    $variables['#attached']['library'][] = 'simplesmart/get-user-information';
+    $variables['#attached']['drupalSettings']['simplesmart']['user'] = $user;
+
 }
