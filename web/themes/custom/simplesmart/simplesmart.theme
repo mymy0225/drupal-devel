@@ -19,15 +19,12 @@ function simplesmart_preprocess_node(&$variables){
 }
 
 function simplesmart_preprocess_page(&$variables){
-
     if ($node = \Drupal::routeMatch()->getParameter('node')) {
         if (is_numeric($node)) {
           $node = Node::load($node);
         }
         $variables['theme_hook_suggestions'][] = 'page__node__' . $node->bundle();
       }
-    // $variables['theme_hook_suggestions'][] = 'page__' . 'my_first_suggestion';
-    // $variables['theme_hook_suggestions'][] = 'page__' . 'my_second_suggestion';
 }
 
 /**
@@ -38,10 +35,6 @@ function simplesmart_theme_suggestions_page_alter(array &$suggestions, array $va
         if (is_numeric($node)) {
           $node = Node::load($node);
         }
-
         $suggestions[] = 'page__node__' . $node->bundle();
-      }
-
-    // $suggestions[] = 'page__' . 'my_first_suggestion';
-    // $suggestions[] = 'page__' . 'my_second_suggestion';
-  }
+    }
+}
