@@ -4,7 +4,7 @@ use Drupal\node\Entity\Node;
 
 function simplesmart_preprocess_node(&$variables){
     $font = theme_get_setting('font_family');
-    if($font !== 'default'){
+    if($font){
         $variables['#attached']['library'][] = $font;
     }
 }
