@@ -6,7 +6,7 @@ function simplesmart_form_system_theme_settings_alter(&$form, \Drupal\Core\Form\
       '#type' => 'select',
       '#title' => t('Font Family'),
       '#options' => array(
-        '' => 'N/A',
+        '' => 'Default',
         $font => 'Pacifico',
       ),
       '#description' => t('使用するフォントを選択してください'),

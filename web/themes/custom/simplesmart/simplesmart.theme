@@ -3,22 +3,24 @@
 use Drupal\node\Entity\Node;
 
 function simplesmart_preprocess_node(&$variables){
+    $font = theme_get_setting('font_family');
+    if($font !== 'default'){
+        $variables['#attached']['library'][] = $font;
+    }
+}
+
+function simplesmart_preprocess_page(&$variables){
+    //  ユーザー情報を読み込む
     $user = [
         'name' => \Drupal::currentUser()->getAccountname(),
         'timezone' => \Drupal::currentUser()->getTimeZone(),
         'roles' => \Drupal::currentUser()->getRoles(),
     ];
 
-    $font = theme_get_setting('font_family');
-    if($font){
-        $variables['#attached']['library'][] = $font;
-    }
-
     $variables['#attached']['library'][] = 'simplesmart/get-user-information';
     $variables['#attached']['drupalSettings']['simplesmart']['user'] = $user;
-}
 
-function simplesmart_preprocess_page(&$variables){
+    // 現在アクセスしているノードのバンドルクラスを取得し、サジェスチョンに追加
     if ($node = \Drupal::routeMatch()->getParameter('node')) {
         if (is_numeric($node)) {
           $node = Node::load($node);
