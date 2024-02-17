@@ -1,5 +1,5 @@
 <?php
-function simplesmart_preprocess_node__article(&$variables){
+function simplesmart_preprocess_node(&$variables){
     $user = [
         'name' => \Drupal::currentUser()->getAccountname(),
         'timezone' => \Drupal::currentUser()->getTimeZone(),
