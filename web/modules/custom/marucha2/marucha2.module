@@ -1,0 +1,19 @@
+<?php
+
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+function marucha2_cron() {
+    \Drupal::messenger()->addMessage('marucha_cron が実行されました');
+  }
+
+/**
+ * implements hook_ENTYTY_TYPE_view
+ */
+function marucha2_node_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_node) {
+  \Drupal::moduleHandler()->invokeAll('marucha2_hello_world');
+}
+
+function marucha2_marucha2_hello_world(){
+  \Drupal::messenger()->addMessage('marucha_marucha_hello_world がよびだされました');
+}

@@ -1,0 +1,4 @@
+services:
+  plugin.manager.tapioca:
+    class: '\Drupal\marucha6\TapiocaPluginManager'
+    parent: default_plugin_manager

@@ -1,0 +1,4 @@
+name: Marucha
+type: module
+description: 'this is the first custom module'
+core_version_requirement: ^10

@@ -1,0 +1,26 @@
+<?php
+/**
+ * @file
+ * Provides marucha6 hooks.
+ */
+
+ /**
+  * Implements hook_cron
+  */
+  function marucha6_cron(){
+    $type = \Drupal::service('plugin.manager.tapioca');
+
+    // 利用可能なプラグインの一覧を取得
+    $plugin_definitions = $type->getDefinitions();
+
+    // 特定のプラグイン定義を取得
+    // $plugin_definitions = $type->getDefinition('tapioca_milk_tea');
+
+    $plugin_definition = reset($plugin_definitions);
+    \Drupal::messenger()->addStatus('特定のプラグイン定義を取得しました: ' . $plugin_definition['id']);
+
+    // プラグインの構成済みインスタンスの生成
+    $plugin = $type->createInstance($plugin_definition['id'], ['of' => 'configuration values']);
+
+    \Drupal::messenger()->addStatus($plugin->getOrder());
+  }

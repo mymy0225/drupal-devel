@@ -1,0 +1,18 @@
+# ルーティングのマシン名、ユニークな名前である必要がある。
+marucha.page:
+  path: '/marucha'
+  defaults:
+  # 実行するコントローラーメソッド、クラスの完全修飾名および対象メソッド
+    _controller: '\Drupal\marucha\Controller\MaruchaController::index'
+    _title: 'Marucha First Page'
+  requirements:
+    # 権限のマシン名
+    _permission: 'access content'
+
+marucha.form:
+  path: '/marucha/form'
+  defaults:
+    _form: '\Drupal\marucha\Form\MaruchaForm'
+    _title: 'Marucha Form'
+  requirements:
+    _permission: 'access content'

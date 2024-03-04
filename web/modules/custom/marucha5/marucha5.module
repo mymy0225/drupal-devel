@@ -1,0 +1,11 @@
+<?php
+
+use Drupal\marucha5\Event\MaruchaEvents;
+use Drupal\marucha5\Event\MaruchaFirstEvent;
+use Drupal\user\UserInterface;
+
+function marucha5_user_login(UserInterface $account){
+    $event = new MaruchaFirstEvent($account);
+    $event_dispatcher = \Drupal::service('event_dispatcher');
+    $event_dispatcher->dispatch($event, MaruchaEvents::FIRST_EVENT);
+}

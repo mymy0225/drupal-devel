@@ -1,0 +1,15 @@
+<?php
+
+function marucha7_cron(){
+
+    $nodeStorage = \Drupal::entityTypeManager()->getStorage('node');
+
+    $node = $nodeStorage->load(1);
+
+    \Drupal::messenger()->addStatus('読み込んだノード: ' . $node->id() . ', ' . $node->getTitle());
+
+    $newNode = $nodeStorage->create(['type' => 'article', 'title' => 'Entity APIで作成した記事'])->save();
+
+
+    //\Drupal::entityManager()->getStorage('node')->load(6)->delete();
+}

@@ -1,0 +1,3 @@
+services:
+  marucha.drink:
+    class: \Drupal\marucha4\Service\MaruchaService

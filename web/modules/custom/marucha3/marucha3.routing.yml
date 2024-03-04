@@ -1,0 +1,7 @@
+marucha3.form:
+  path: '/marucha3/form'
+  defaults:
+    _title: 'Marucha Form 3'
+    _form: 'Drupal\marucha3\Form\MaruchaForm'
+  requirements:
+    _permission: 'access content'

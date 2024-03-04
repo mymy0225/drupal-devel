@@ -1,0 +1,9 @@
+services:
+  marucha.config_subscriber:
+    class: '\Drupal\marucha5\EventSubscriber\ConfigSubscriber'
+    tags:
+      - { name: 'event_subscriber' }
+  marucha.subscriber:
+    class: '\Drupal\marucha5\EventSubscriber\MaruchaSubscriber'
+    tags:
+      - { name: 'event_subscriber' }
