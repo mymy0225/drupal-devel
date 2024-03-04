@@ -9,8 +9,27 @@
 namespace Drupal\rsvplist\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Messenger\MessengerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ReportController extends ControllerBase{
+
+    protected $database;
+    protected $messenger;
+
+    public function __construct(Connection $connection, MessengerInterface $messenger){
+        $this->database = $connection;
+        $this->messenger = $messenger;
+
+    }
+
+    public static function create(ContainerInterface $container){
+        return new static(
+            $container->get('database'),
+            $container->get('messenger'),
+        );
+    }
     /**
      * Gets and returns all RSVPs for all nodes.
      * These are returned as an associative array, with each row
@@ -20,7 +39,7 @@ class ReportController extends ControllerBase{
      */
     protected function load(){
         try{
-            $database = \Drupal::database();
+            $database = $this->database;
             $select_query = $database->select('rsvplist', 'r');
             $select_query->join('users_field_data', 'u', 'r.uid = u.uid');
             $select_query->join('node_field_data', 'n', 'r.nid = n.nid');
@@ -33,7 +52,7 @@ class ReportController extends ControllerBase{
             return $entries;
         }
         catch(\Exception $e){
-            \Drupal::messenger()->addStatus(
+            $this->messenger->addStatus(
                 t('Unable to access the database at this time. Please try again later.')
             );
             return NULL;

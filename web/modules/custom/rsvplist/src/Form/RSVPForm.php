@@ -5,11 +5,53 @@
  */
 namespace Drupal\rsvplist\Form;
 
+use Drupal\Component\Datetime\TimeInterface;
+use Drupal\Component\Utility\EmailValidatorInterface;
+use Drupal\Core\Database\Connection;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\user\Entity\User;
+use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Session\AccountInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class RSVPForm extends FormBase {
+
+    protected $routeMatch;
+    protected $emailValidator;
+    protected $currentUser;
+    protected $database;
+    protected $time;
+    protected $messenger;
+
+    public function __construct(
+        RouteMatchInterface $route_match,
+        EmailValidatorInterface $email_validator,
+        AccountInterface $current_user,
+        Connection $connection,
+        TimeInterface $time,
+        MessengerInterface $messenger,
+        ){
+        $this->routeMatch = $route_match;
+        $this->emailValidator = $email_validator;
+        $this->currentUser = $current_user;
+        $this->time = $time;
+        $this->database = $connection;
+        $this->messenger = $messenger;
+    }
+
+    public static function create(ContainerInterface $container){
+        return new static(
+            $container->get('current_route_match'),
+            $container->get('email.validator'),
+            $container->get('current_user'),
+            $container->get('database'),
+            $container->get('datetime.time'),
+            $container->get('messenger'),
+        );
+
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -21,7 +63,7 @@ class RSVPForm extends FormBase {
      * {@inheritdoc}
      */
     public function buildForm (array $form, FormStateInterface $form_state){
-        $node = \Drupal::routeMatch()->getParameter('node');
+        $node = $this->routeMatch->getParameter('node');
 
         if ( !(is_null($node)) ){
             $nid = $node->id();
@@ -54,7 +96,7 @@ class RSVPForm extends FormBase {
 
     public function validateForm(array &$form, FormStateInterface $form_state){
         $value = $form_state->getValue('email');
-        if( !(\Drupal::service('email.validator')->isValid($value)) ){
+        if( !($this->emailValidator->isValid($value)) ){
             $form_state->setErrorByName(
                 'email',
                 $this->t('it appears that %mail is not a valid email. Please try again', ['%mail' => $value]));
@@ -70,14 +112,13 @@ class RSVPForm extends FormBase {
         // ['@entry' => $submitted_email]));
 
         try{
-            $uid = \Drupal::currentUser()->id();
-            $full_user = User::load(\Drupal::currentUser()->Id());
+            $uid = $this->currentUser->id();
 
             $nid = $form_state->getValue('nid');
             $email = $form_state->getValue('email');
-            $current_time = \Drupal::time()->getRequestTime();
+            $current_time = $this->time->getRequestTime();
 
-            $query = \Drupal::database()->insert('rsvplist');
+            $query = $this->database->insert('rsvplist');
             $query->fields([
                 'uid',
                 'nid',
@@ -94,12 +135,12 @@ class RSVPForm extends FormBase {
 
             $query->execute();
 
-            \Drupal::messenger()->addMessage(
+            $this->messenger->addMessage(
                 t('Thank you for your RSVP, you are on the list for the event!')
             );
 
         }catch(\Exception $e){
-            \Drupal::messenger()->addError(t('Unable to save RSVP settings at this time due to database error. Please try again.'));
+            $this->messenger->addError(t('Unable to save RSVP settings at this time due to database error. Please try again.'));
         }
 
     }
