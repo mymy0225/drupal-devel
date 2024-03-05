@@ -71,6 +71,8 @@ class RSVPForm extends FormBase {
             $nid = 0;
         }
 
+        $request = \Drupal::request()->get('code');
+
         $form['email'] = [
             '#type' => 'textfield',
             '#title' => t('Email address'),
@@ -83,6 +85,7 @@ class RSVPForm extends FormBase {
             '#title' => 'Special Code',
             '#size' => 25,
             '#description' => t('If you have an special code, please input.'),
+            '#default_value' => $request,
         ];
         $form['submit'] = [
             '#type' => 'submit',
