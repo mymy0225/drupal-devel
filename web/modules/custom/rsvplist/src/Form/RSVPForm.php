@@ -78,6 +78,12 @@ class RSVPForm extends FormBase {
             '#description' => t('We will send updates to the email address you provide.'),
             '#required' => TRUE,
         ];
+        $form['special_code'] = [
+            '#type' => 'textfield',
+            '#title' => 'Special Code',
+            '#size' => 25,
+            '#description' => t('If you have an special code, please input.'),
+        ];
         $form['submit'] = [
             '#type' => 'submit',
             '#value' => t('RSVP'),
@@ -113,9 +119,9 @@ class RSVPForm extends FormBase {
 
         try{
             $uid = $this->currentUser->id();
-
             $nid = $form_state->getValue('nid');
             $email = $form_state->getValue('email');
+            $special_code = $form_state->getValue('special_code');
             $current_time = $this->time->getRequestTime();
 
             $query = $this->database->insert('rsvplist');
@@ -123,6 +129,7 @@ class RSVPForm extends FormBase {
                 'uid',
                 'nid',
                 'mail',
+                'special_code',
                 'created',
             ]);
 
@@ -130,6 +137,7 @@ class RSVPForm extends FormBase {
                 $uid,
                 $nid,
                 $email,
+                $special_code,
                 $current_time,
             ]);
 

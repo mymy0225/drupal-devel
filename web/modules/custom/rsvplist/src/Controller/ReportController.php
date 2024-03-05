@@ -46,6 +46,7 @@ class ReportController extends ControllerBase{
             $select_query->addField('u', 'name', 'username');
             $select_query->addField('n', 'title');
             $select_query->addField('r', 'mail');
+            $select_query->addField('r', 'special_code');
 
             $entries = $select_query->execute()->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -76,6 +77,7 @@ class ReportController extends ControllerBase{
             t('Username'),
             t('Event'),
             t('Email'),
+            t('Special Code'),
         ];
 
         $table_rows = $this->load();

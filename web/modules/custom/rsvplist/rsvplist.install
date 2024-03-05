@@ -36,6 +36,13 @@
                 'not null' => FALSE,
                 'default' => '',
             ],
+            'special_code' =>[
+                'description' => 'User\'s special code.',
+                'type' => 'varchar',
+                'length' => 64,
+                'not null' => TRUE,
+                'default' => '',
+            ],
             'created' => [
                 'description' => 'Timestamp for when RSVP was created',
                 'type' => 'int',
